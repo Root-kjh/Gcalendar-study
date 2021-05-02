@@ -36,7 +36,7 @@ def get_access_token():
 if __name__ == '__main__':
     access_token = get_access_token()
     calendar_id = "june.333@humanscape.io"
-    curtime = time.strftime('%Y-%m-%dT00:00:00-0000', time.localtime(time.time()))
+    curtime = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.localtime(time.time()))
     URL = 'https://www.googleapis.com/calendar/v3/calendars/'+calendar_id +'/events'+'?timeMin='+curtime
     request_header = {
         "Content-Type": "application/json",
@@ -46,4 +46,4 @@ if __name__ == '__main__':
     response = requests.get(URL, headers=request_header)
 
     for event in response.json().get("items"):
-        print(event.get("summary"))
+        print(f'{event.get("summary")} {event.get("start").get("dateTime")} {event.get("end").get("dateTime")}')
